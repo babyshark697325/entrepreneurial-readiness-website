@@ -52,7 +52,7 @@
   
   <div id="scenarioCard" class="card" style="display:none;">
     <h2>Scenario</h2>
-    <ul id="scenarioList"></ul>
+    <p id="scenarioText"></p>
     <label for="rating">How ready do you think this person is? (1–5)</label>
     <input type="number" id="rating" min="1" max="5" />
     <button onclick="submitResponse()">Submit</button>
@@ -79,14 +79,13 @@
         idea_difficulty: ["Easy", "Moderate", "Hard"][randomInt(0,2)]
       };
 
-      const list = document.getElementById("scenarioList");
-      list.innerHTML = "";
-      for (const [key, value] of Object.entries(scenario)) {
-        const li = document.createElement("li");
-        li.textContent = `${key.replace(/_/g, " ")}: ${value}`;
-        list.appendChild(li);
-      }
+      const story = `This person is ${scenario.age} years old and has ${scenario.dependents} dependents. 
+      They make ${scenario.monthly_income} each month, spend about ${scenario.monthly_bills} on bills, 
+      and ${scenario.monthly_entertainment} on entertainment. They have ${scenario.savings_amount} in savings 
+      and ${scenario.assets} in assets. Their sales skills are ${scenario.sales_skills}, their confidence is ${scenario.confidence_level}, 
+      and their idea is ${scenario.idea_difficulty} with ${scenario.risk} risk.`;
 
+      document.getElementById("scenarioText").textContent = story;
       document.getElementById("scenarioCard").style.display = "block";
       document.getElementById("thankYou").style.display = "none";
     }
