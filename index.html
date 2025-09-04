@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrepreneurial Readiness Test</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #f9f9f9;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      margin-top: 20px;
+      width: 320px;
+      text-align: center;
+    }
+    button {
+      margin-top: 12px;
+      padding: 10px 20px;
+      background: #4F46E5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    input {
+      margin-top: 10px;
+      padding: 6px;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Entrepreneurial Readiness Test</h1>
+  <button onclick="generateScenario()">Generate Scenario</button>
+  
+  <div id="scenarioCard" class="card" style="display:none;">
+    <p id="scenarioText"></p>
+    <label for="rating">How ready do you think this person is? (1–5)</label>
+    <input type="number" id="rating" min="1" max="5" />
+    <button onclick="submitResponse()">Submit</button>
+    <p id="thankYou" style="color:green; display:none;">Thanks! Response recorded.</p>
+  </div>
+
+  <script>
+    const attributes = {
+      risk: ["Low", "Medium", "High"],
+      skills: ["Beginner", "Intermediate", "Expert"],
+      confidence: ["Low", "Moderate", "High"],
+      profile: ["Innovator", "Planner", "Opportunist"]
+    };
+
+    function generateScenario() {
+      const risk = attributes.risk[Math.floor(Math.random() * attributes.risk.length)];
+      const skills = attributes.skills[Math.floor(Math.random() * attributes.skills.length)];
+      const confidence = attributes.confidence[Math.floor(Math.random() * attributes.confidence.length)];
+      const profile = attributes.profile[Math.floor(Math.random() * attributes.profile.length)];
+      
+      const scenario = `This person has ${risk} risk tolerance, ${skills} skills, ${confidence} confidence, and fits a ${profile} profile.`;
+      
+      document.getElementById("scenarioText").textContent = scenario;
+      document.getElementById("scenarioCard").style.display = "block";
+      document.getElementById("thankYou").style.display = "none";
+    }
+
+    function submitResponse() {
+      const rating = document.getElementById("rating").value;
+      if (!rating) {
+        alert("Please enter a rating before submitting.");
+        return;
+      }
+      // Right now, just show confirmation (later we’ll send to Hugging Face)
+      document.getElementById("thankYou").style.display = "block";
+    }
+  </script>
+</body>
+</html>
