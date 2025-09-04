@@ -21,7 +21,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-top: 20px;
-      width: 360px;
+      width: 400px;
       text-align: left;
     }
     button {
@@ -53,8 +53,8 @@
   <div id="scenarioCard" class="card" style="display:none;">
     <h2>Scenario</h2>
     <p id="scenarioText"></p>
-    <label for="rating">How ready do you think this person is? (1–5)</label>
-    <input type="number" id="rating" min="1" max="5" />
+    <label for="rating">How ready do you think this person is? (1–10)</label>
+    <input type="number" id="rating" min="1" max="10" />
     <button onclick="submitResponse()">Submit</button>
     <p id="thankYou" style="color:green; display:none;">Thanks! Response recorded.</p>
   </div>
@@ -65,25 +65,34 @@
     }
 
     function generateScenario() {
-      const scenario = {
-        monthly_income: "$" + randomInt(1000, 10000),
-        monthly_bills: "$" + randomInt(500, 5000),
-        monthly_entertainment: "$" + randomInt(50, 1000),
-        sales_skills: ["Low", "Medium", "High"][randomInt(0,2)],
+      const names = ["Maria", "James", "Aisha", "Carlos", "Lina", "David", "Sofia", "Marcus", "Ella", "Omar"];
+      const name = names[randomInt(0, names.length - 1)];
+
+      const s = {
+        monthly_income: "$" + randomInt(2000, 10000),
+        monthly_bills: "$" + randomInt(1000, 6000),
+        monthly_entertainment: "$" + randomInt(100, 1000),
+        sales_skills: randomInt(1, 10),
         age: randomInt(18, 65),
-        dependents: randomInt(0, 5),
+        dependents: randomInt(0, 4),
         assets: "$" + randomInt(0, 100000),
         savings_amount: "$" + randomInt(0, 50000),
-        risk: ["Low", "Medium", "High"][randomInt(0,2)],
-        confidence_level: ["Low", "Moderate", "High"][randomInt(0,2)],
-        idea_difficulty: ["Easy", "Moderate", "Hard"][randomInt(0,2)]
+        risk: randomInt(1, 10),
+        confidence_level: randomInt(1, 10),
+        idea_difficulty: randomInt(1, 10)
       };
 
-      const story = `This person is ${scenario.age} years old and has ${scenario.dependents} dependents. 
-      They make ${scenario.monthly_income} each month, spend about ${scenario.monthly_bills} on bills, 
-      and ${scenario.monthly_entertainment} on entertainment. They have ${scenario.savings_amount} in savings 
-      and ${scenario.assets} in assets. Their sales skills are ${scenario.sales_skills}, their confidence is ${scenario.confidence_level}, 
-      and their idea is ${scenario.idea_difficulty} with ${scenario.risk} risk.`;
+      const templates = [
+        `${name} is ${s.age} years old with ${s.dependents} dependents. They bring in about ${s.monthly_income} a month, spending ${s.monthly_bills} on bills and ${s.monthly_entertainment} on fun. So far, they’ve saved ${s.savings_amount} and own assets worth ${s.assets}. Their sales skills are ${s.sales_skills}/10, confidence is ${s.confidence_level}/10, the idea feels like a ${s.idea_difficulty}/10 challenge, and their risk tolerance is ${s.risk}/10.`,
+
+        `At ${s.age}, ${name} supports ${s.dependents} dependents. Their monthly income is ${s.monthly_income}, with about ${s.monthly_bills} going to bills and ${s.monthly_entertainment} spent on entertainment. They’ve built ${s.savings_amount} in savings and ${s.assets} in assets. Ratings: sales ${s.sales_skills}/10, confidence ${s.confidence_level}/10, idea difficulty ${s.idea_difficulty}/10, risk ${s.risk}/10.`,
+
+        `This scenario is about ${name}, a ${s.age}-year-old with ${s.dependents} dependents. They earn ${s.monthly_income} monthly and spend ${s.monthly_bills} on bills. Entertainment costs ${s.monthly_entertainment}, leaving them with ${s.savings_amount} saved and ${s.assets} in assets. Their self-rated skills are: sales ${s.sales_skills}/10, confidence ${s.confidence_level}/10, idea difficulty ${s.idea_difficulty}/10, and risk ${s.risk}/10.`,
+
+        `${name}, who is ${s.age}, earns ${s.monthly_income} per month. Bills take about ${s.monthly_bills}, and entertainment about ${s.monthly_entertainment}. They’ve saved ${s.savings_amount} and hold ${s.assets} in assets. They look at themselves as ${s.sales_skills}/10 in sales, ${s.confidence_level}/10 in confidence, ${s.idea_difficulty}/10 for idea difficulty, and ${s.risk}/10 in risk tolerance.`
+      ];
+
+      const story = templates[Math.floor(Math.random() * templates.length)];
 
       document.getElementById("scenarioText").textContent = story;
       document.getElementById("scenarioCard").style.display = "block";
@@ -96,7 +105,6 @@
         alert("Please enter a rating before submitting.");
         return;
       }
-      // Later we'll POST to Hugging Face, for now just show message
       document.getElementById("thankYou").style.display = "block";
     }
   </script>
