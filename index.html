@@ -21,7 +21,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-top: 20px;
-      width: 420px;
+      width: 440px;
       text-align: left;
     }
     button {
@@ -78,8 +78,22 @@
         "launch a podcast",
         "begin a photography studio"
       ];
+      const contexts = [
+        "recently paid off their student loans",
+        "is saving for their child’s college education",
+        "helps their parents with monthly bills",
+        "just finished paying off credit card debt",
+        "is trying to build an emergency fund",
+        "is balancing side hustles with a full-time job",
+        "is planning for retirement early",
+        "is dealing with unexpected medical expenses",
+        "is renting but dreams of buying a home",
+        "just moved to a new city to find opportunities"
+      ];
+
       const name = names[randomInt(0, names.length - 1)];
       const dream = dreams[randomInt(0, dreams.length - 1)];
+      const context = contexts[randomInt(0, contexts.length - 1)];
 
       const s = {
         monthly_income: randomInt(2000, 10000),
@@ -96,13 +110,13 @@
       };
 
       const templates = [
-        `${name} is ${s.age} and lives with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. They earn about $${s.monthly_income} each month and spend around $${s.monthly_bills} on bills and $${s.monthly_entertainment} on fun. They’ve managed to save $${s.savings_amount} and hold about $${s.assets} in assets. ${name} wants to ${dream}. They rate their sales skills at ${s.sales_skills}/10 and confidence at ${s.confidence_level}/10. Their idea feels like a ${s.idea_difficulty}/10 challenge, and their risk tolerance is ${s.risk}/10.`,
+        `${name} is ${s.age} and lives with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. They earn about $${s.monthly_income} each month and spend around $${s.monthly_bills} on bills and $${s.monthly_entertainment} on fun. They’ve saved $${s.savings_amount} and hold about $${s.assets} in assets. ${name} ${context}. They dream of being able to ${dream}. They rate their sales skills at ${s.sales_skills}/10, confidence at ${s.confidence_level}/10, their idea as ${s.idea_difficulty}/10 in difficulty, and risk tolerance at ${s.risk}/10.`,
 
-        `At ${s.age}, ${name} supports ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. They bring in $${s.monthly_income} per month, while bills take $${s.monthly_bills} and entertainment adds $${s.monthly_entertainment}. They’ve built $${s.savings_amount} in savings and $${s.assets} in assets. ${name} dreams of starting a project to ${dream}. On a scale of 1–10, they score ${s.sales_skills} in sales skills, ${s.confidence_level} in confidence, ${s.idea_difficulty} for idea difficulty, and ${s.risk} in risk tolerance.`,
+        `At ${s.age}, ${name} supports ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. Each month they bring in $${s.monthly_income}, while bills take $${s.monthly_bills} and entertainment costs $${s.monthly_entertainment}. Savings sit at $${s.savings_amount}, and assets are $${s.assets}. ${name} ${context} and hopes to ${dream}. On a scale of 1–10, they score ${s.sales_skills} in sales skills, ${s.confidence_level} in confidence, ${s.idea_difficulty} in idea difficulty, and ${s.risk} in risk tolerance.`,
 
-        `This scenario is about ${name}, a ${s.age}-year-old with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. They make $${s.monthly_income} monthly but spend heavily on bills ($${s.monthly_bills}) and entertainment ($${s.monthly_entertainment}). They’ve saved $${s.savings_amount} and have $${s.assets} in assets. Their goal is to ${dream}. They rate themselves as ${s.sales_skills}/10 in sales, ${s.confidence_level}/10 in confidence, with an idea they see as ${s.idea_difficulty}/10 in difficulty, and a risk tolerance of ${s.risk}/10.`,
+        `This scenario is about ${name}, who is ${s.age} years old with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. They make $${s.monthly_income} monthly but spend heavily on bills ($${s.monthly_bills}) and entertainment ($${s.monthly_entertainment}). They’ve saved $${s.savings_amount} and have $${s.assets} in assets. ${name} ${context} while working toward their dream to ${dream}. They rate themselves as ${s.sales_skills}/10 in sales, ${s.confidence_level}/10 in confidence, with an idea they see as ${s.idea_difficulty}/10 in difficulty, and a risk tolerance of ${s.risk}/10.`,
 
-        `${name}, who is ${s.age}, earns about $${s.monthly_income} each month. Bills come to $${s.monthly_bills}, and entertainment costs about $${s.monthly_entertainment}. They’ve saved $${s.savings_amount} so far and have $${s.assets} in assets. They’re considering whether to ${dream}. ${name} says their sales skills are ${s.sales_skills}/10, confidence ${s.confidence_level}/10, idea difficulty ${s.idea_difficulty}/10, and risk tolerance ${s.risk}/10.`
+        `${name}, who is ${s.age}, earns about $${s.monthly_income} each month. Bills come to $${s.monthly_bills}, and entertainment adds $${s.monthly_entertainment}. They’ve saved $${s.savings_amount} so far and have $${s.assets} in assets. ${name} ${context}. They’re considering whether to ${dream}. Their ratings: sales ${s.sales_skills}/10, confidence ${s.confidence_level}/10, idea difficulty ${s.idea_difficulty}/10, and risk tolerance ${s.risk}/10.`
       ];
 
       const story = templates[Math.floor(Math.random() * templates.length)];
