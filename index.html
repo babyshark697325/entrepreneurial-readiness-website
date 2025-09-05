@@ -21,7 +21,7 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-top: 20px;
-      width: 400px;
+      width: 420px;
       text-align: left;
     }
     button {
@@ -69,27 +69,27 @@
       const name = names[randomInt(0, names.length - 1)];
 
       const s = {
-        monthly_income: "$" + randomInt(2000, 10000),
-        monthly_bills: "$" + randomInt(1000, 6000),
-        monthly_entertainment: "$" + randomInt(100, 1000),
+        monthly_income: randomInt(2000, 10000),
+        monthly_bills: randomInt(1000, 6000),
+        monthly_entertainment: randomInt(100, 1000),
         sales_skills: randomInt(1, 10),
         age: randomInt(18, 65),
         dependents: randomInt(0, 4),
-        assets: "$" + randomInt(0, 100000),
-        savings_amount: "$" + randomInt(0, 50000),
+        assets: randomInt(0, 100000),
+        savings_amount: randomInt(0, 50000),
         risk: randomInt(1, 10),
         confidence_level: randomInt(1, 10),
         idea_difficulty: randomInt(1, 10)
       };
 
       const templates = [
-        `${name} is ${s.age} years old with ${s.dependents} dependents. They bring in about ${s.monthly_income} a month, spending ${s.monthly_bills} on bills and ${s.monthly_entertainment} on fun. So far, they’ve saved ${s.savings_amount} and own assets worth ${s.assets}. Their sales skills are ${s.sales_skills}/10, confidence is ${s.confidence_level}/10, the idea feels like a ${s.idea_difficulty}/10 challenge, and their risk tolerance is ${s.risk}/10.`,
+        `${name} is ${s.age} and lives with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. They earn about $${s.monthly_income} each month and spend most of it on bills and fun. They’ve managed to save $${s.savings_amount} and hold around $${s.assets} in assets. ${name} rates their sales skills at ${s.sales_skills}/10 and confidence at ${s.confidence_level}/10. Their idea feels like a ${s.idea_difficulty}/10 challenge, and their risk tolerance is about ${s.risk}/10.`,
 
-        `At ${s.age}, ${name} supports ${s.dependents} dependents. Their monthly income is ${s.monthly_income}, with about ${s.monthly_bills} going to bills and ${s.monthly_entertainment} spent on entertainment. They’ve built ${s.savings_amount} in savings and ${s.assets} in assets. Ratings: sales ${s.sales_skills}/10, confidence ${s.confidence_level}/10, idea difficulty ${s.idea_difficulty}/10, risk ${s.risk}/10.`,
+        `At ${s.age}, ${name} supports ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. Each month they bring in $${s.monthly_income}, while bills take up about $${s.monthly_bills} and entertainment costs $${s.monthly_entertainment}. Savings sit at $${s.savings_amount}, and they have assets worth $${s.assets}. On a scale of 1–10, ${name} scores ${s.sales_skills} in sales skills, ${s.confidence_level} in confidence, ${s.idea_difficulty} in idea difficulty, and ${s.risk} in risk tolerance.`,
 
-        `This scenario is about ${name}, a ${s.age}-year-old with ${s.dependents} dependents. They earn ${s.monthly_income} monthly and spend ${s.monthly_bills} on bills. Entertainment costs ${s.monthly_entertainment}, leaving them with ${s.savings_amount} saved and ${s.assets} in assets. Their self-rated skills are: sales ${s.sales_skills}/10, confidence ${s.confidence_level}/10, idea difficulty ${s.idea_difficulty}/10, and risk ${s.risk}/10.`,
+        `This scenario is about ${name}, who is ${s.age} years old with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. They make $${s.monthly_income} per month but spend a lot on bills ($${s.monthly_bills}) and entertainment ($${s.monthly_entertainment}). They’ve saved $${s.savings_amount} and have $${s.assets} in assets. They see themselves as ${s.sales_skills}/10 in sales skills, ${s.confidence_level}/10 in confidence, with an idea that’s ${s.idea_difficulty}/10 in difficulty, and a risk tolerance of ${s.risk}/10.`,
 
-        `${name}, who is ${s.age}, earns ${s.monthly_income} per month. Bills take about ${s.monthly_bills}, and entertainment about ${s.monthly_entertainment}. They’ve saved ${s.savings_amount} and hold ${s.assets} in assets. They look at themselves as ${s.sales_skills}/10 in sales, ${s.confidence_level}/10 in confidence, ${s.idea_difficulty}/10 for idea difficulty, and ${s.risk}/10 in risk tolerance.`
+        `${name}, who is ${s.age}, earns about $${s.monthly_income} each month. Bills come to $${s.monthly_bills}, and entertainment adds another $${s.monthly_entertainment}. They’ve saved $${s.savings_amount} so far and have assets of $${s.assets}. They rate their sales skills at ${s.sales_skills}/10, confidence at ${s.confidence_level}/10, idea difficulty at ${s.idea_difficulty}/10, and risk tolerance at ${s.risk}/10.`
       ];
 
       const story = templates[Math.floor(Math.random() * templates.length)];
