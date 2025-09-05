@@ -65,22 +65,38 @@
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    function generateScenario() {
-      const names = ["Maria","James","Aisha","Carlos","Lina","David","Sofia","Marcus","Ella","Omar","Noah","Chloe","Raj","Mei","Lucas","Isabella","Zara","Ethan","Leila","Malik","Aria","Jordan","Fatima","Gabriel","Hana","Nico","Yara","Julian","Amira","Hassan","Layla","Mateo","Nora","Khalid","Samira","Andre","Tariq","Elena","Diego","Maya"];
-      const dreams = [
-        "open a food truck",
-        "start an online clothing brand",
-        "launch a tutoring service",
-        "develop a mobile app",
-        "sell handmade jewelry",
-        "create a fitness coaching business",
-        "open a small café",
-        "start a landscaping service",
-        "launch a podcast",
-        "begin a photography studio"
-      ];
+    // Expanded first-name pool
+    const names = [
+      "Maria","James","Aisha","Carlos","Lina","David","Sofia","Marcus","Ella","Omar",
+      "Noah","Chloe","Raj","Mei","Lucas","Isabella","Zara","Ethan","Leila","Malik",
+      "Aria","Jordan","Fatima","Gabriel","Hana","Nico","Yara","Julian","Amira","Hassan",
+      "Layla","Mateo","Nora","Khalid","Samira","Andre","Tariq","Elena","Diego","Maya"
+    ];
 
-      const name = names[randomInt(0, names.length - 1)];
+    // Shuffle & cycle system for names
+    let namePool = [];
+    function getNextName() {
+      if (namePool.length === 0) {
+        namePool = [...names].sort(() => Math.random() - 0.5);
+      }
+      return namePool.pop();
+    }
+
+    const dreams = [
+      "open a food truck",
+      "start an online clothing brand",
+      "launch a tutoring service",
+      "develop a mobile app",
+      "sell handmade jewelry",
+      "create a fitness coaching business",
+      "open a small café",
+      "start a landscaping service",
+      "launch a podcast",
+      "begin a photography studio"
+    ];
+
+    function generateScenario() {
+      const name = getNextName();
       const dream = dreams[randomInt(0, dreams.length - 1)];
 
       const s = {
@@ -103,7 +119,7 @@
       const assets = Math.round(s.assets / 1000) * 1000;
 
       // Pronoun handling
-      const isFemale = ["Maria","Aisha","Lina","Sofia","Ella"].includes(name);
+      const isFemale = ["Maria","Aisha","Lina","Sofia","Ella","Chloe","Isabella","Zara","Leila","Aria","Fatima","Hana","Yara","Amira","Layla","Nora","Samira","Elena","Maya"].includes(name);
       const sheHe = isFemale ? "She" : "He";
       const herHis = isFemale ? "Her" : "His";
 
@@ -112,7 +128,7 @@
       if (s.risk >= 4 && s.risk <= 7) riskLevel = "medium";
       if (s.risk >= 8) riskLevel = "high";
 
-      // Story format (Maria-style only)
+      // Story (Maria-style)
       const story = `${name} is ${s.age} and lives with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. 
       ${sheHe} earns about $${income} each month and spends most of it on bills and fun. 
       ${sheHe}’s saved around $${savings} and owns about $${assets} in assets. 
