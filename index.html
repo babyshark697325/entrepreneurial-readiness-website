@@ -21,8 +21,9 @@
       border-radius: 12px;
       box-shadow: 0 4px 10px rgba(0,0,0,0.1);
       margin-top: 20px;
-      width: 480px;
+      width: 500px;
       text-align: left;
+      line-height: 1.6;
     }
     button {
       margin-top: 12px;
@@ -89,29 +90,35 @@
         sales_skills: randomInt(1, 10),
         age: randomInt(18, 65),
         dependents: randomInt(0, 3),
-        assets: randomInt(0, 100000),
-        savings_amount: randomInt(0, 50000),
+        assets: randomInt(5000, 100000),
+        savings_amount: randomInt(1000, 50000),
         risk: randomInt(1, 10),
         confidence_level: randomInt(1, 10),
         idea_difficulty: randomInt(1, 10)
       };
 
-      // Round money to nearest hundred for readability
+      // Round numbers for readability
       const income = Math.round(s.monthly_income / 100) * 100;
-      const bills = Math.round(s.monthly_bills / 100) * 100;
-      const entertainment = Math.round(s.monthly_entertainment / 10) * 10;
       const savings = Math.round(s.savings_amount / 100) * 100;
       const assets = Math.round(s.assets / 1000) * 1000;
 
-      const pronoun = (["Maria","Aisha","Lina","Sofia","Ella"].includes(name)) ? "She" : "He";
+      // Pronoun handling
+      const isFemale = ["Maria","Aisha","Lina","Sofia","Ella"].includes(name);
+      const sheHe = isFemale ? "She" : "He";
+      const herHis = isFemale ? "Her" : "His";
 
+      // Risk description
+      let riskLevel = "low";
+      if (s.risk >= 4 && s.risk <= 7) riskLevel = "medium";
+      if (s.risk >= 8) riskLevel = "high";
+
+      // Story format (Maria-style only)
       const story = `${name} is ${s.age} and lives with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. 
-      ${pronoun} earns about $${income} each month and spends most of it on bills and fun. 
-      ${pronoun} has saved around $${savings} and owns about $${assets} in assets. 
-      ${name} admits ${pronoun.toLowerCase()} sales skills aren’t strong (${s.sales_skills}/10), 
-      but ${pronoun.toLowerCase()}’s confident (${s.confidence_level}/10) and is excited about ${pronoun.toLowerCase()} plan to ${dream}, 
-      which ${pronoun.toLowerCase()} rates as a ${s.idea_difficulty}/10 challenge. 
-      ${pronoun} is willing to take a risk level of ${s.risk}/10.`;
+      ${sheHe} earns about $${income} each month and spends most of it on bills and fun. 
+      ${sheHe}’s saved around $${savings} and owns about $${assets} in assets. 
+      ${herHis} sales skills aren’t strong (${s.sales_skills}/10), but ${sheHe.toLowerCase()}’s confident (${s.confidence_level}/10) 
+      and is excited about ${herHis.toLowerCase()} idea to ${dream}, which ${sheHe.toLowerCase()} rates as a ${s.idea_difficulty}/10 challenge. 
+      ${sheHe}’s willing to take a ${riskLevel} level of risk (${s.risk}/10).`;
 
       document.getElementById("scenarioText").textContent = story;
       document.getElementById("scenarioCard").style.display = "block";
