@@ -65,7 +65,7 @@
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Expanded first-name pool
+    // Expanded names
     const names = [
       "Maria","James","Aisha","Carlos","Lina","David","Sofia","Marcus","Ella","Omar",
       "Noah","Chloe","Raj","Mei","Lucas","Isabella","Zara","Ethan","Leila","Malik",
@@ -73,7 +73,7 @@
       "Layla","Mateo","Nora","Khalid","Samira","Andre","Tariq","Elena","Diego","Maya"
     ];
 
-    // Shuffle & cycle system for names
+    // Shuffle-cycle system for names
     let namePool = [];
     function getNextName() {
       if (namePool.length === 0) {
@@ -82,6 +82,7 @@
       return namePool.pop();
     }
 
+    // Possible business dreams
     const dreams = [
       "open a food truck",
       "start an online clothing brand",
@@ -94,6 +95,8 @@
       "launch a podcast",
       "begin a photography studio"
     ];
+
+    let lastScenario = {}; // to send to backend
 
     function generateScenario() {
       const name = getNextName();
@@ -128,7 +131,7 @@
       if (s.risk >= 4 && s.risk <= 7) riskLevel = "medium";
       if (s.risk >= 8) riskLevel = "high";
 
-      // Story (Maria-style)
+      // Build narrative
       const story = `${name} is ${s.age} and lives with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. 
       ${sheHe} earns about $${income} each month and spends most of it on bills and fun. 
       ${sheHe}’s saved around $${savings} and owns about $${assets} in assets. 
@@ -136,18 +139,45 @@
       and is excited about ${herHis.toLowerCase()} idea to ${dream}, which ${sheHe.toLowerCase()} rates as a ${s.idea_difficulty}/10 challenge. 
       ${sheHe}’s willing to take a ${riskLevel} level of risk (${s.risk}/10).`;
 
+      // Save scenario object for submission
+      lastScenario = {
+        name, age: s.age, dependents: s.dependents,
+        income, savings, assets,
+        sales: s.sales_skills, confidence: s.confidence_level,
+        difficulty: s.idea_difficulty, risk: s.risk,
+        dream, story
+      };
+
+      // Show on page
       document.getElementById("scenarioText").textContent = story;
       document.getElementById("scenarioCard").style.display = "block";
       document.getElementById("thankYou").style.display = "none";
     }
 
-    function submitResponse() {
+    async function submitResponse() {
       const rating = document.getElementById("rating").value;
       if (!rating) {
         alert("Please enter a rating before submitting.");
         return;
       }
-      document.getElementById("thankYou").style.display = "block";
+
+      const payload = { ...lastScenario, user_rating: parseInt(rating) };
+
+      try {
+        const response = await fetch("https://your-space-name.hf.space/submit", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        if (response.ok) {
+          document.getElementById("thankYou").style.display = "block";
+        } else {
+          alert("Error submitting response");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Failed to connect to Hugging Face.");
+      }
     }
   </script>
 </body>
