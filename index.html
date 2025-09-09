@@ -155,11 +155,14 @@
       const payload = { ...lastScenario, user_rating: parseInt(rating) };
 
       try {
-        const response = await fetch("https://<your-username>-<your-space>.hf.space/submit", {
+        const response = await fetch("https://<your-username>-<your-space>.hf.space/run/predict", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({ data: [payload] })   // ✅ wrap payload in Gradio format
         });
+        const result = await response.json();
+        console.log("Server response:", result);
+
         if (response.ok) {
           document.getElementById("thankYou").style.display = "block";
         } else {
@@ -173,4 +176,3 @@
   </script>
 </body>
 </html>
-
