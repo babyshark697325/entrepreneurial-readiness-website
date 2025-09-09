@@ -57,7 +57,7 @@
     <label for="rating">How ready do you think this person is? (1–10)</label>
     <input type="number" id="rating" min="1" max="10" />
     <button onclick="submitResponse()">Submit</button>
-    <p id="thankYou" style="color:green; display:none;">Thanks! Response recorded.</p>
+    <p id="thankYou" style="color:green; display:none;">✅ Thanks! Response recorded.</p>
   </div>
 
   <script>
@@ -154,22 +154,23 @@
 
       const payload = { ...lastScenario, user_rating: parseInt(rating) };
 
+      const targetUrl = "https://user6295018-entrepreneurial-readiness-checker.hf.space/submit/predict";
+
       try {
-        const response = await fetch("https://corsproxy.io/?" + encodeURIComponent("https://user6295018-entreprenurial-readiness-checker.hf.space/run/predict"), {
+        const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(targetUrl), {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ data: [payload] })  // ✅ Gradio expects {data:[...]}
+          body: JSON.stringify(payload)
         });
-        const result = await response.json();
-        console.log("Server response:", result);
 
         if (response.ok) {
           document.getElementById("thankYou").style.display = "block";
         } else {
-          alert("Error submitting response");
+          const text = await response.text();
+          alert("Error submitting response: " + text);
         }
       } catch (err) {
-        console.error(err);
+        console.error("Network error:", err);
         alert("Failed to connect to Hugging Face.");
       }
     }
