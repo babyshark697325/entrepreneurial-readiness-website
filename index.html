@@ -155,7 +155,7 @@
       const payload = { ...lastScenario, user_rating: parseInt(rating) };
 
       try {
-        const response = await fetch("https://<your-username>-<your-space>.hf.space/run/predict", {
+        const response = await fetch("https://<https://user6295018-entreprenurial-readiness-checker.hf.space", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ data: [payload] })  // ✅ Gradio expects {data:[...]}
