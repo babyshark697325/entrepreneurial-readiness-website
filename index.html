@@ -65,7 +65,6 @@
       return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // Expanded names
     const names = [
       "Maria","James","Aisha","Carlos","Lina","David","Sofia","Marcus","Ella","Omar",
       "Noah","Chloe","Raj","Mei","Lucas","Isabella","Zara","Ethan","Leila","Malik",
@@ -73,7 +72,6 @@
       "Layla","Mateo","Nora","Khalid","Samira","Andre","Tariq","Elena","Diego","Maya"
     ];
 
-    // Shuffle-cycle system for names
     let namePool = [];
     function getNextName() {
       if (namePool.length === 0) {
@@ -82,7 +80,6 @@
       return namePool.pop();
     }
 
-    // Possible business dreams
     const dreams = [
       "open a food truck",
       "start an online clothing brand",
@@ -96,7 +93,7 @@
       "begin a photography studio"
     ];
 
-    let lastScenario = {}; // to send to backend
+    let lastScenario = {}; // store the scenario object
 
     function generateScenario() {
       const name = getNextName();
@@ -116,22 +113,18 @@
         idea_difficulty: randomInt(1, 10)
       };
 
-      // Round numbers for readability
       const income = Math.round(s.monthly_income / 100) * 100;
       const savings = Math.round(s.savings_amount / 100) * 100;
       const assets = Math.round(s.assets / 1000) * 1000;
 
-      // Pronoun handling
       const isFemale = ["Maria","Aisha","Lina","Sofia","Ella","Chloe","Isabella","Zara","Leila","Aria","Fatima","Hana","Yara","Amira","Layla","Nora","Samira","Elena","Maya"].includes(name);
       const sheHe = isFemale ? "She" : "He";
       const herHis = isFemale ? "Her" : "His";
 
-      // Risk description
       let riskLevel = "low";
       if (s.risk >= 4 && s.risk <= 7) riskLevel = "medium";
       if (s.risk >= 8) riskLevel = "high";
 
-      // Build narrative
       const story = `${name} is ${s.age} and lives with ${s.dependents} dependent${s.dependents !== 1 ? "s" : ""}. 
       ${sheHe} earns about $${income} each month and spends most of it on bills and fun. 
       ${sheHe}’s saved around $${savings} and owns about $${assets} in assets. 
@@ -139,7 +132,6 @@
       and is excited about ${herHis.toLowerCase()} idea to ${dream}, which ${sheHe.toLowerCase()} rates as a ${s.idea_difficulty}/10 challenge. 
       ${sheHe}’s willing to take a ${riskLevel} level of risk (${s.risk}/10).`;
 
-      // Save scenario object for submission
       lastScenario = {
         name, age: s.age, dependents: s.dependents,
         income, savings, assets,
@@ -148,7 +140,6 @@
         dream, story
       };
 
-      // Show on page
       document.getElementById("scenarioText").textContent = story;
       document.getElementById("scenarioCard").style.display = "block";
       document.getElementById("thankYou").style.display = "none";
@@ -164,7 +155,7 @@
       const payload = { ...lastScenario, user_rating: parseInt(rating) };
 
       try {
-        const response = await fetch("https://your-space-name.hf.space/submit", {
+        const response = await fetch("https://<your-username>-<your-space>.hf.space/submit", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload)
@@ -182,3 +173,4 @@
   </script>
 </body>
 </html>
+
