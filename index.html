@@ -60,6 +60,8 @@
     <p id="thankYou" style="color:green; display:none;">✅ Thanks! Response recorded.</p>
   </div>
 
+  <div id="results" class="card" style="display:none;"></div>
+
   <script>
     function randomInt(min, max) {
       return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -135,6 +137,8 @@
       lastScenario = {
         name, age: s.age, dependents: s.dependents,
         income, savings, assets,
+        bills: s.monthly_bills,
+        ent: s.monthly_entertainment,
         sales: s.sales_skills, confidence: s.confidence_level,
         difficulty: s.idea_difficulty, risk: s.risk,
         dream, story
@@ -143,6 +147,7 @@
       document.getElementById("scenarioText").textContent = story;
       document.getElementById("scenarioCard").style.display = "block";
       document.getElementById("thankYou").style.display = "none";
+      document.getElementById("results").style.display = "none";
     }
 
     async function submitResponse() {
@@ -152,23 +157,36 @@
         return;
       }
 
-      const payload = { ...lastScenario, user_rating: parseInt(rating) };
+      // Build payload in same order as app.py inputs
+      const data = [
+        lastScenario.savings,      // saving
+        lastScenario.income,       // income
+        lastScenario.bills,        // bills
+        lastScenario.ent,          // ent
+        lastScenario.assets,       // assets
+        lastScenario.sales,        // skills
+        lastScenario.confidence,   // confidence
+        lastScenario.risk,         // risk
+        lastScenario.difficulty,   // diff
+        lastScenario.age,          // age
+        lastScenario.dependents    // deps
+      ];
 
-      const targetUrl = "https://user6295018-entrepreneurial-readiness-checker.hf.space/submit/predict";
+      const targetUrl = "https://user6295018-entrepreneurial-readiness-checker.hf.space/run/predict";
 
       try {
-        const response = await fetch("https://corsproxy.io/?" + encodeURIComponent(targetUrl), {
+        const response = await fetch(targetUrl, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(payload)
+          body: JSON.stringify({ data })
         });
 
-        if (response.ok) {
-          document.getElementById("thankYou").style.display = "block";
-        } else {
-          const text = await response.text();
-          alert("Error submitting response: " + text);
-        }
+        const result = await response.json();
+
+        // Show gauge + suggestions
+        document.getElementById("results").innerHTML = result.data[0] + result.data[1];
+        document.getElementById("results").style.display = "block";
+        document.getElementById("thankYou").style.display = "block";
       } catch (err) {
         console.error("Network error:", err);
         alert("Failed to connect to Hugging Face.");
