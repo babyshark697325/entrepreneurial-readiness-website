@@ -172,7 +172,8 @@
         lastScenario.dependents    // deps
       ];
 
-      const targetUrl = "https://user6295018-entrepreneurial-readiness-checker.hf.space/run/predict";
+      // ✅ Hugging Face embed proxy endpoint (CORS-friendly)
+      const targetUrl = "https://hf.space/embed/user6295018/entrepreneurial-readiness-checker/+/api/predict/";
 
       try {
         const response = await fetch(targetUrl, {
@@ -183,7 +184,7 @@
 
         const result = await response.json();
 
-        // Show gauge + suggestions
+        // Show gauge + suggestions returned by your Space
         document.getElementById("results").innerHTML = result.data[0] + result.data[1];
         document.getElementById("results").style.display = "block";
         document.getElementById("thankYou").style.display = "block";
